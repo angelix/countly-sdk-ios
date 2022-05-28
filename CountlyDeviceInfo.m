@@ -304,11 +304,6 @@ CLYMetricKey const CLYMetricKeyInstalledWatchApp  = @"_installed_watch_app";
     metricsDictionary[CLYMetricKeyOS] = CountlyDeviceInfo.osName;
     metricsDictionary[CLYMetricKeyOSVersion] = CountlyDeviceInfo.osVersion;
     metricsDictionary[CLYMetricKeyAppVersion] = CountlyDeviceInfo.appVersion;
-
-    NSString *carrier = CountlyDeviceInfo.carrier;
-    if (carrier)
-        metricsDictionary[CLYMetricKeyCarrier] = carrier;
-
     metricsDictionary[CLYMetricKeyResolution] = CountlyDeviceInfo.resolution;
     metricsDictionary[CLYMetricKeyDensity] = CountlyDeviceInfo.density;
     metricsDictionary[CLYMetricKeyLocale] = CountlyDeviceInfo.locale;
