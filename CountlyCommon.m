@@ -15,7 +15,6 @@ NSString* const kCountlyOrientationKeyMode = @"mode";
     NSCalendar* gregorianCalendar;
     NSTimeInterval startTime;
 }
-@property long long lastTimestamp;
 
 #if (TARGET_OS_IOS)
 @property (nonatomic) NSString* lastInterfaceOrientation;
@@ -142,7 +141,7 @@ void CountlyPrint(NSString *stringToPrint)
 
 - (NSTimeInterval)uniqueTimestamp
 {
-    long long now = floor(NSDate.date.timeIntervalSince1970 * 1000);
+    long long now = floor(NSDate.date.timeIntervalSince1970 * 1000) - _offset;
 
     if (now <= self.lastTimestamp)
         self.lastTimestamp++;

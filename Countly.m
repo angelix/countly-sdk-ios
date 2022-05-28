@@ -77,6 +77,7 @@ NSString* previousEventID;
     CountlyCommon.sharedInstance.maxKeyLength = config.maxKeyLength;
     CountlyCommon.sharedInstance.maxValueLength = config.maxValueLength;
     CountlyCommon.sharedInstance.maxSegmentationValues = config.maxSegmentationValues;
+    CountlyCommon.sharedInstance.offset = config.offset;
 
     CountlyConsentManager.sharedInstance.requiresConsent = config.requiresConsent;
 
@@ -787,7 +788,7 @@ NSString* previousEventID;
     event.segmentation = segmentation;
     event.count = MAX(count, 1);
     event.sum = sum;
-    event.duration = NSDate.date.timeIntervalSince1970 - event.timestamp;
+    event.duration = CountlyCommon.sharedInstance.uniqueTimestamp - event.timestamp;
 
     [CountlyPersistency.sharedInstance recordEvent:event];
 }
@@ -1215,6 +1216,14 @@ NSString* previousEventID;
     long long appLoadEndTime = floor(NSDate.date.timeIntervalSince1970 * 1000);
 
     [CountlyPerformanceMonitoring.sharedInstance recordAppStartDurationTraceWithStartTime:appLoadStartTime endTime:appLoadEndTime];
+}
+
+- (void)setNewOffset:(NSUInteger)newOffset
+{
+    CLY_LOG_I(@"%s %tu", __FUNCTION__, newOffset);
+
+    CountlyCommon.sharedInstance.offset = newOffset;
+    CountlyCommon.sharedInstance.lastTimestamp = 0;
 }
 
 @end

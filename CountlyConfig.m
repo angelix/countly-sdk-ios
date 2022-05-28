@@ -54,6 +54,7 @@ CLYDeviceIDType const CLYDeviceIDTypeNSUUID     = @"CLYDeviceIDTypeNSUUID";
         self.maxKeyLength = 128;
         self.maxValueLength = 256;
         self.maxSegmentationValues = 100;
+        self.offset = 0;
 
         self.location = kCLLocationCoordinate2DInvalid;
 

@@ -61,8 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param newURLSessionConfiguration The new URL session configuration
  */
 - (void)setNewURLSessionConfiguration:(NSURLSessionConfiguration *)newURLSessionConfiguration;
-
-
+- (void)setNewOffset:(NSUInteger) newOffset;
 
 #pragma mark - Queue Operations
 

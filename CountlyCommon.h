@@ -85,6 +85,8 @@ extern NSString* const kCountlySDKName;
 @property (nonatomic) NSUInteger maxKeyLength;
 @property (nonatomic) NSUInteger maxValueLength;
 @property (nonatomic) NSUInteger maxSegmentationValues;
+@property (nonatomic) NSUInteger offset;
+@property long long lastTimestamp;
 
 void CountlyInternalLog(CLYInternalLogLevel level, NSString *format, ...) NS_FORMAT_FUNCTION(2, 3);
 void CountlyPrint(NSString *stringToPrint);

@@ -153,7 +153,7 @@ NSString* const kCountlyVTKeyDur      = @"dur";
         segmentation[kCountlyVTKeyName] = self.currentView;
         segmentation[kCountlyVTKeySegment] = CountlyDeviceInfo.osName;
 
-        NSTimeInterval duration = NSDate.date.timeIntervalSince1970 - self.currentViewStartTime + self.accumulatedTime;
+        NSTimeInterval duration = CountlyCommon.sharedInstance.uniqueTimestamp - self.currentViewStartTime + self.accumulatedTime;
         self.accumulatedTime = 0;
         [Countly.sharedInstance recordReservedEvent:kCountlyReservedEventView segmentation:segmentation count:1 sum:0 duration:duration ID:self.currentViewID timestamp:self.currentViewStartTime];
 
@@ -164,7 +164,7 @@ NSString* const kCountlyVTKeyDur      = @"dur";
 - (void)pauseView
 {
     if (self.currentViewStartTime)
-        self.accumulatedTime = NSDate.date.timeIntervalSince1970 - self.currentViewStartTime;
+        self.accumulatedTime = CountlyCommon.sharedInstance.uniqueTimestamp - self.currentViewStartTime;
 }
 
 - (void)resumeView

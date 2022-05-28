@@ -349,6 +349,8 @@ typedef enum : NSUInteger
  */
 @property (nonatomic) NSUInteger maxValueLength;
 
+@property (nonatomic) NSUInteger offset;
+
 /**
  * Limit for the number of key-value pairs in segmentations.
  * @discussion If there are more key-value pairs than this limit, some of them will be removed.
