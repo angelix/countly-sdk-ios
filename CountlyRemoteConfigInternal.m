@@ -261,7 +261,7 @@ CLYRequestResult const CLYResponseError         = @"CLYResponseError";
         queryString = [queryString stringByAppendingFormat:@"&%@=%@", kCountlyRCKeyAutoOptIn, @"1"];
     }
     
-    if (CountlyConsentManager.sharedInstance.consentForSessions)
+    if (CountlyConsentManager.sharedInstance.consentForSessions || CountlyConsentManager.sharedInstance.consentForMetrics)
     {
         queryString = [queryString stringByAppendingFormat:@"&%@=%@", kCountlyQSKeyMetrics, [CountlyDeviceInfo metrics]];
     }
@@ -655,6 +655,11 @@ CLYRequestResult const CLYResponseError         = @"CLYResponseError";
     queryString = [queryString stringByAppendingFormat:@"&%@=%@",
                    kCountlyAppVersionKey, CountlyDeviceInfo.appVersion];
     
+    if (CountlyConsentManager.sharedInstance.consentForSessions || CountlyConsentManager.sharedInstance.consentForMetrics)
+    {
+        queryString = [queryString stringByAppendingFormat:@"&%@=%@", kCountlyQSKeyMetrics, [CountlyDeviceInfo metrics]];
+    }
+    
     queryString = [CountlyConnectionManager.sharedInstance appendChecksum:queryString];
     
     NSString* serverOutputSDKEndpoint = [CountlyConnectionManager.sharedInstance.host stringByAppendingFormat:@"%@%@",
@@ -820,6 +825,11 @@ CLYRequestResult const CLYResponseError         = @"CLYResponseError";
     
     queryString = [queryString stringByAppendingFormat:@"&%@=%@",
                    kCountlyAppVersionKey, CountlyDeviceInfo.appVersion];
+    
+    if (CountlyConsentManager.sharedInstance.consentForSessions || CountlyConsentManager.sharedInstance.consentForMetrics)
+    {
+        queryString = [queryString stringByAppendingFormat:@"&%@=%@", kCountlyQSKeyMetrics, [CountlyDeviceInfo metrics]];
+    }
     
     queryString = [CountlyConnectionManager.sharedInstance appendChecksum:queryString];
     

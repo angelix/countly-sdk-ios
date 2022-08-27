@@ -6,6 +6,7 @@
 
 #import "CountlyCommon.h"
 
+CLYConsent const CLYConsentMetrics              = @"metrics";
 CLYConsent const CLYConsentSessions             = @"sessions";
 CLYConsent const CLYConsentEvents               = @"events";
 CLYConsent const CLYConsentUserDetails          = @"users";
@@ -22,6 +23,7 @@ CLYConsent const CLYConsentContent              = @"content";
 
 @implementation CountlyConsentManager
 
+@synthesize consentForMetrics = _consentForMetrics;
 @synthesize consentForSessions = _consentForSessions;
 @synthesize consentForEvents = _consentForEvents;
 @synthesize consentForUserDetails = _consentForUserDetails;
@@ -90,6 +92,9 @@ static dispatch_once_t onceToken;
     if ([features containsObject:CLYConsentUserDetails] && !self.consentForUserDetails)
         self.consentForUserDetails = YES;
 
+    if ([features containsObject:CLYConsentMetrics] && !self.consentForMetrics)
+        self.consentForMetrics = YES;
+    
     if ([features containsObject:CLYConsentSessions] && !self.consentForSessions)
         self.consentForSessions = YES;
 
@@ -147,6 +152,9 @@ static dispatch_once_t onceToken;
     if (!self.requiresConsent)
         return;
 
+    if ([features containsObject:CLYConsentMetrics] && self.consentForMetrics)
+        self.consentForMetrics = NO;
+    
     if ([features containsObject:CLYConsentSessions] && self.consentForSessions)
     {
         [CountlyConnectionManager.sharedInstance endSession];
@@ -195,6 +203,7 @@ static dispatch_once_t onceToken;
 {
     NSDictionary * consents =
     @{
+        CLYConsentMetrics: @(self.consentForMetrics),
         CLYConsentSessions: @(self.consentForSessions),
         CLYConsentEvents: @(self.consentForEvents),
         CLYConsentUserDetails: @(self.consentForUserDetails),
@@ -217,6 +226,7 @@ static dispatch_once_t onceToken;
 {
     return
     @[
+        CLYConsentMetrics,
         CLYConsentSessions,
         CLYConsentEvents,
         CLYConsentUserDetails,
@@ -253,6 +263,19 @@ static dispatch_once_t onceToken;
 
 #pragma mark -
 
+- (void)setConsentForMetrics:(BOOL)consentForMetrics
+{
+    _consentForMetrics = consentForMetrics;
+
+    if (consentForMetrics)
+    {
+        CLY_LOG_D(@"Consent for Metrics is given.");
+    }
+    else
+    {
+        CLY_LOG_D(@"Consent for Metrics is cancelled.");
+    }
+}
 
 - (void)setConsentForSessions:(BOOL)consentForSessions
 {
@@ -481,6 +504,14 @@ static dispatch_once_t onceToken;
 }
 
 #pragma mark -
+
+- (BOOL)consentForMetrics
+{
+    if (!self.requiresConsent)
+      return YES;
+
+    return _consentForMetrics;
+}
 
 - (BOOL)consentForSessions
 {
